@@ -5,9 +5,9 @@ import MDLPA.helpers.DimensionUtils;
 import MDLPA.helpers.FormattingUtils;
 import MDLPA.helpers.GraphColorizer;
 import MDLPA.helpers.IteratorUtils;
-import MDLPA.helpers.KeyValuePair;
 import MDLPA.helpers.MapUtils;
 import MDLPA.helpers.SetUtils;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
@@ -174,7 +174,7 @@ public class MDLPA implements Clusterer, LongTask {
 
                 // Go over the nodes list and update their memberships according to the update rule of MDLPA [1]
                 for(Node v : V) {
-                    KeyValuePair<Color,List<Node>> dominantCluster = getDominantClusterInNeighbourhood(v);
+                    Map.Entry<Color,List<Node>> dominantCluster = getDominantClusterInNeighbourhood(v);
                     
                     updateDvAndw(v, dominantCluster);
                     
@@ -417,7 +417,7 @@ public class MDLPA implements Clusterer, LongTask {
      * @param winningCluster: neighbors u of v that belong to the cluster which applies the highest combined w.
      */
     
-    private void updateDvAndw(Node v, KeyValuePair<Color,List<Node>> winningCluster) {
+    private void updateDvAndw(Node v, Map.Entry<Color,List<Node>> winningCluster) {
         List<Node> winningClusterNeighbors = winningCluster.getValue();
         if (winningClusterNeighbors == null || winningClusterNeighbors.isEmpty())
             return;
@@ -488,14 +488,14 @@ public class MDLPA implements Clusterer, LongTask {
     }
     
     // Calculating the clusters weights in the neighbourhood of the v.
-    private KeyValuePair<Color, List<Node>> getDominantClusterInNeighbourhood(Node v) {
+    private Map.Entry<Color, List<Node>> getDominantClusterInNeighbourhood(Node v) {
         Set<Node> Nv = getNeighbors(v);
 
         if (Nv.isEmpty())
         {
             Color lv = nodeMemberships.get(v);
 
-            return new KeyValuePair<Color, List<Node>>(lv, new ArrayList<Node>());
+            return new AbstractMap.SimpleEntry<Color, List<Node>>(lv, new ArrayList<Node>());
         }        
         
         Map<Color, Double> combinedClusterWeights = new LinkedHashMap<Color, Double>();
@@ -534,7 +534,11 @@ public class MDLPA implements Clusterer, LongTask {
                 dominantNeighbors.add(u);
         }
         
-        KeyValuePair<Color, List<Node>> dominantCluster = new KeyValuePair<Color, List<Node>>(newlv, dominantNeighbors);
+        Map.Entry<Color, List<Node>> dominantCluster = new AbstractMap.SimpleEntry<Color, List<Node>>(
+            newlv,
+            dominantNeighbors
+        );
+        
         return dominantCluster;
     }
     

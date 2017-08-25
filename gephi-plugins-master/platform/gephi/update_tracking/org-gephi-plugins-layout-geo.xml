@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<module codename="org.gephi.plugins.layout.geo">
-    <module_version install_time="1439260747303" last="true" origin="Gephi Thirdparties Plugins" specification_version="1.3.1">
-        <file crc="3073352664" name="config/Modules/org-gephi-plugins-layout-geo.xml"/>
-        <file crc="940351887" name="modules/org-gephi-plugins-layout-geo.jar"/>
-    </module_version>
-</module>

@@ -7,6 +7,7 @@ import MDLPA.helpers.GraphColorizer;
 import MDLPA.helpers.IteratorUtils;
 import MDLPA.helpers.MapUtils;
 import MDLPA.helpers.SetUtils;
+import MDLPA.helpers.NodeIndexComparer;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -44,14 +45,6 @@ import org.gephi.utils.progress.ProgressTicket;
  * [1] Boutemine, O., & Bouguessa, M. (2017). Mining Community Structures in Multidimensional Networks. ACM Transactions on Knowledge Discovery from Data (TKDD), 11(4), 51. 
  */
 public class MDLPA implements Clusterer, LongTask {
-    public class NodeIndexComparer implements Comparator<Node>{
-        @Override
-        public int compare(Node o1, Node o2) {
-            int result = Integer.compare(graph.getDegree(o1), graph.getDegree(o2));
-            return result;
-        }
-    }
-
     // Used to colorize the nodes based on their clusters.
     private static final  GraphColorizer graphColorizer = new GraphColorizer();
     
@@ -487,7 +480,9 @@ public class MDLPA implements Clusterer, LongTask {
         }
     }
     
-    // Calculating the clusters weights in the neighbourhood of the v.
+    /**
+     * Returns the dominant cluster in the neighborhood of a node v based on the maximum combined attraction weight w.
+     */
     private Map.Entry<Color, List<Node>> getDominantClusterInNeighbourhood(Node v) {
         Set<Node> Nv = getNeighbors(v);
 
@@ -516,9 +511,9 @@ public class MDLPA implements Clusterer, LongTask {
             combinedClusterWeights.put(lu, wvu);
         }
         
-        // Picking the cluster with the heighest w, if the two or more clusters apply the same w and are different from the lv,
-        // then pick one randomly. Otherwise, keep the old membership.
-        // LinkedHashMap will always return the values in the same order they were inserted. We need to shuffle.
+        // Picking the cluster with the heighest w, if the two or more clusters apply the same w,
+        // then pick one randomly.
+        // LinkedHashMap will always return values in the same order they were inserted. We need to shuffle to randomly pick a dominant cluster.
         combinedClusterWeights = MapUtils.shuffle(combinedClusterWeights, randomizer);
         
         double maxWeight = Collections.max(combinedClusterWeights.values());
@@ -615,7 +610,7 @@ public class MDLPA implements Clusterer, LongTask {
     }
     
     /**
-     * Recovers back the original names of dimensions from their BitSet representation.
+     * Recovers back the original dimension names from their BitSet representation.
      */
     private List<String> getDimensionNames(BitSet dimensions) {
         List<String> dimensionNames = new ArrayList<String>();
@@ -651,6 +646,9 @@ public class MDLPA implements Clusterer, LongTask {
         return this.isCancelled = true;
     }
 
+    /**
+     * Prints a progress message in the status bar of gephi.
+     */
     public void printProgressMessage(String message) {
         if (this.progress == null)
             return ;
@@ -658,23 +656,15 @@ public class MDLPA implements Clusterer, LongTask {
         this.progress.progress(message);
     }
     
-    private Set<Node> getNeighbors(Node node){
-        return IteratorUtils.toSet(graph.getNeighbors(node).iterator());
-    }
-       
     /**
-     * Gets all linking edges between the provided set of nodes.
+     * Returns the neighbors of the provided node.
      */
-    protected Set<Edge> getEdgesOfNodes(Set<Node> nodes){
-        Set<Edge> edges = new HashSet<Edge>();
-        for(Node node1:nodes){
-            for (Node node2:nodes){
-                Edge edge = graph.getEdge(node1,node2);
-                if (!edges.contains(edge) && edge != null)
-                    edges.add(edge);
-            }
-        }
-        return edges;
+    private Set<Node> getNeighbors(Node node){
+        return IteratorUtils
+            .toSet(graph
+                .getNeighbors(node)
+                .iterator()
+            );
     }
     
     /**
@@ -697,7 +687,7 @@ public class MDLPA implements Clusterer, LongTask {
      * 2
      * 4
      * Each line indicates the cluster membership of the corresponding node. For example, nodes {n0, n1} belong to cluster 1.
-     * Nodes (n3, n6) belong to cluster 4 and so far ..
+     * Nodes (n3, n6) belong to cluster 4 and so on ..
      * This format was adopted to allow compatibility with other implementations in MATLAB which generate similar clustering results.
      */
     protected void printNodesAssignments(List<Cluster> clusters) {
@@ -712,7 +702,7 @@ public class MDLPA implements Clusterer, LongTask {
     
         // Now build the list of memberships according the adopted format.
         
-        // First sort list of nodes according to their indices.
+        // First sort list of nodes according to their ids.
         Collections.sort(V, new NodeIndexComparer());
         
         StringBuilder resultBuilder = new StringBuilder();
@@ -802,8 +792,8 @@ public class MDLPA implements Clusterer, LongTask {
     
     private void showPopup(String title, String content) {
         JTextArea container = new JTextArea(content);
-        
         container.setEditable(true);
+        
         JOptionPane.showMessageDialog(
             null,
             container,

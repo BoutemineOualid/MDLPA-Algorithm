@@ -1,5 +1,5 @@
 function A = ConvertGephiEdgeListToAdjacencyMatrices(edgesList, d, n, columnsSeparator, dimensionsSeparator)
-% Generates a cell array of adjacency matrices from the provided edge list file.
+%% Generates a cell array of adjacency matrices from the provided edge list file.
 % The edge list file is supported to have the following format:
 % Source; Target; Label; Type
 % where label is of the following format : d0, .., dy, dz. where di represents the dimension index.
@@ -13,10 +13,10 @@ function A = ConvertGephiEdgeListToAdjacencyMatrices(edgesList, d, n, columnsSep
 % dimensionsSeparator: ',' by default. Represents the separator between the dimensions printed on the label of the edge.
 
 	% Setting up default values.
-	if (isempty(columnsSeparator))
+	if (~exist('columnsSeparator'))
 		columnsSeparator = ';';
 	end
-	if (isempty(dimensionsSeparator))
+	if (~exist('dimensionsSeparator'))
 		dimensionsSeparator = ',';
 	end
 

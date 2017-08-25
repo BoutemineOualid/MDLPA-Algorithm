@@ -1,5 +1,5 @@
 function [] = ConvertAdjacencyMatricesToGephiEdgeList(A, columnsSeparator, dimensionsSeparator)
-% Converts a list of adjacency matrices to a list of edges in the format : source; target; d0, .., dx, dy, dz; undirected
+%% Converts a list of adjacency matrices to a list of edges in the format : source; target; d0, .., dx, dy, dz; undirected
 % which can be imported in the data laboratory of Gephi. The third column is indeed the label of the edge.
 % Dimension indices represent the index of the corresponding layer in the cell array of adjacency matrices A.
 % Example: 1;2;1,5;Undirected means that the pair of nodes (1, 2) is connected by dimensions 1 and 5.
@@ -7,13 +7,14 @@ function [] = ConvertAdjacencyMatricesToGephiEdgeList(A, columnsSeparator, dimen
 % This format was adopted since Gephi 0.8.2  does not offer any support for multigraphs and the latest version which
 % offers such a supports  (0.9.1) unfortunately doesn't provide a clustering module.
 % A: A cell array of adjacency matrices. Each cell describes the adjacency matrix Ai of layer i of the multidimensional network.
+% columnsSeparator: ';' by default. Used to separate the columns of the generated edges list file.
 % dimensionsSeparator: ',' by default. Used to separate the dimensions on the edge labels.
 
-if (isempty(dimensionsSeparator))
+if (~exist('dimensionsSeparator'))
 	dimensionsSeparator = ',';
 end
 
-if (isempty(columnsSeparator))
+if (~exist('columnsSeparator'))
 	columnsSeparator = ';';
 end
 

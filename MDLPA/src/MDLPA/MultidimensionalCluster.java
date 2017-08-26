@@ -54,15 +54,16 @@ public class MultidimensionalCluster implements Cluster {
 
     @Override
     public String getName() {
-        ArrayList<String> sortedDimensions = new ArrayList<String>(relevantDimensions);
-        Collections.sort(sortedDimensions);
-
-        String dimensionsList = FormattingUtils.getCommaSeperatedRepresentation(sortedDimensions);
-
+        String Vk = FormattingUtils.getCommaSeperatedRepresentation(this.getNodes());
+        String Dk = FormattingUtils.getCommaSeperatedRepresentation(relevantDimensions);
+        
         return String.format(
-            "%s [(%s)]",
-            name, 
-            dimensionsList
+            "%s (V%s,D%s) = ({%s},{%s})",
+            name,
+            name,
+            name,
+            Vk,
+            Dk
         );
     }
     

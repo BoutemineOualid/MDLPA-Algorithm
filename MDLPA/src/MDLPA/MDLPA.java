@@ -27,7 +27,6 @@ import org.gephi.graph.api.Edge;
 import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.Node;
-import org.gephi.graph.api.NodeIterator;
 import org.gephi.utils.longtask.spi.LongTask;
 import org.gephi.utils.progress.ProgressTicket;
 
@@ -809,7 +808,6 @@ public class MDLPA implements Clusterer, LongTask {
                 clusterRelevantDimensionsBuilder.append("[],");
             else
             {
-                
                 String relevantDimensions = FormattingUtils.getCommaSeperatedRepresentation(mdCluster.getRelevantDimensions());
                 
                 clusterRelevantDimensionsBuilder

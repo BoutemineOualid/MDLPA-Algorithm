@@ -51,7 +51,7 @@ Notes
 The code bundle comes with matlab/octave helper tools to convert adjacency matrix cell-array based tensor representation of the multidimensional networks' data into a compatible gephi CSV node/edge list files.
 The data can thus be imported from the Data Laboratory module of the Gephi software.
 
-Also note that the currently implementation of the plugin/conversion functions uses the label column to display the connecting dimensions sets D(v,u) as a comma-separated string representation 'd1,..,dk'.
+Also note that the currentlt implementation of the plugin/conversion functions uses the label column to display the connecting dimensions sets D(v,u) as a comma-separated string representation 'd1,..,dk'.
 This is because we want to show the connecting dimensions along the edge for better readability and visualization.
 You may want to use any custom column in the generation tools, but you'll need to update the code of the plugins accordingly.
 

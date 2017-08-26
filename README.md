@@ -10,7 +10,7 @@ into a single edge (n1, n2) with an edge label/metadata 'd1,d2,d5' pointing to t
 The code for the plugin is available under the MDLPA folder.
 The gephi platform code is available under the gephi-plugins folder which was forked from the official gephi plugins repository (https://github.com/gephi/gephi-plugins branch 0.8.2).
 
-Using the plugin:
+Using the plugin
 =================
 Option 1. If you intend to check the code of the algorithm and eventually play with it: 
 - git clone this repository on your machine.
@@ -35,18 +35,18 @@ Option 2. If you want to use it without modifications.
 - Import your MDLPA-compatible node/edge csv data from the Data laboratory window.
 - Run the algorithm.
 
-Change Log:
+Change Log
 ============
 v1.0 : Initial version.
 
-TODO:
+TODO
 =====
-10. Save clustering results into a matlab/octave readable variable files.
-13. Remove simulated parallel processing that uses Collections.Shuffle and paralellize the propagation using a Map/Reduce model.
-20. Save plugin settings using the Settings API.
-25. [BLOCKED] Upgrade to Gephi 0.9+. (Blocker details: No clustering module/api as of v1.0 of the plugin)
+[#10] Save clustering results into a matlab/octave readable variable files.<br/>
+[#13] Remove simulated parallel processing that uses Collections.Shuffle and paralellize the propagation using a Map/Reduce model.<br/>
+[#20] Save plugin settings using the Settings API.<br/>
+[#25] [BLOCKED] Upgrade to Gephi 0.9+. (Blocker details: No clustering module/api as of v1.0 of this plugin)<br/>
 
-Notes:
+Notes
 ======
 The code bundle comes with matlab/octave helper tools to convert adjacency matrix cell-array based tensor representation of the multidimensional networks' data into a compatible gephi CSV node/edge list files.
 The data can thus be imported from the Data Laboratory module of the Gephi software.
@@ -62,6 +62,6 @@ For test purposes, the network in Figure 1 of the paper [1] was included as a de
 
 The code is freely available for academic and research use. To cite, use the following publication: 
 
-Publications:
+Publications
 =============
 [1] Boutemine, O., & Bouguessa, M. (2017). Mining Community Structures in Multidimensional Networks. ACM Transactions on Knowledge Discovery from Data (TKDD), 11(4), 51.

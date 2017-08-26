@@ -12,7 +12,6 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -28,6 +27,7 @@ import org.gephi.graph.api.Edge;
 import org.gephi.graph.api.Graph;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.Node;
+import org.gephi.graph.api.NodeIterator;
 import org.gephi.utils.longtask.spi.LongTask;
 import org.gephi.utils.progress.ProgressTicket;
 
@@ -537,6 +537,55 @@ public class MDLPA implements Clusterer, LongTask {
         return dominantCluster;
     }
     
+    /**
+     * Retrieves the dominant clusters in the neighborhood of a node a v.
+     * Used for stop convergence check.
+     */
+    private List<Color> getDominantClustersInNeighbourhood(Node v) {
+        Set<Node> Nv = getNeighbors(v);
+        List<Color> dominantClusters = new ArrayList<Color>();
+
+        if (Nv.isEmpty())
+        {
+            Color lv = nodeMemberships.get(v);
+
+            dominantClusters.add(lv);
+            return dominantClusters;
+        }        
+        
+        Map<Color, Double> combinedClusterWeights = new HashMap<Color, Double>();
+        Map<Node, Double> WU = W.get(v);
+        
+        for(Node u : Nv) {
+            if (isCancelled)
+                break;
+            
+            Color lu = this.nodeMemberships.get(u);
+            
+            double wvu = WU.get(u);
+            
+            if (combinedClusterWeights.containsKey(lu)) {
+                wvu += combinedClusterWeights.get(lu);
+            }
+            
+            combinedClusterWeights.put(lu, wvu);
+        }
+        
+        // Retriving the dominant clusters.
+        double maxWeight = Collections.max(combinedClusterWeights.values());
+        
+        for (Map.Entry<Color, Double> neighboringClusterWeight : combinedClusterWeights.entrySet()) {
+            double clusterWeight = neighboringClusterWeight.getValue();
+            Color cluster = neighboringClusterWeight.getKey();
+            
+            if (clusterWeight == maxWeight) {
+                dominantClusters.add(cluster);
+            }
+        }
+        
+        return dominantClusters;
+    }
+    
     /*
     * Checks whether all nodes are currently adopting the dominant label according to the propagation rule of MDLPA.
     * Invoked at the end of each propagation cycle.
@@ -547,8 +596,9 @@ public class MDLPA implements Clusterer, LongTask {
         for (Node v : V) {
             Color lv = nodeMemberships.get(v);
             
-            Color dominantCluster = getDominantClusterInNeighbourhood(v).getKey();
-            result = lv == dominantCluster;
+            List<Color> dominantClusters = getDominantClustersInNeighbourhood(v);
+            
+            result = dominantClusters.contains(lv);
             
             if (!result)
                 break;

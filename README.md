@@ -41,10 +41,10 @@ v1.0 : Initial version.
 
 TODO
 =====
-[#10] Save clustering results into a matlab/octave readable variable files.tl;dr
-[#13] Remove simulated parallel processing that uses Collections.Shuffle and paralellize the propagation using a Map/Reduce model.tl;dr
-[#20] Save plugin settings using the Settings API.tl;dr
-[#25] [BLOCKED] Upgrade to Gephi 0.9+. (Blocker details: No clustering module/api as of v1.0 of this plugin)tl;dr
+[#10] Save clustering results into a matlab/octave readable variable files.<br/>
+[#13] Remove simulated parallel processing that uses Collections.Shuffle and paralellize the propagation using a Map/Reduce model.<br/>
+[#20] Save plugin settings using the Settings API.<br/>
+[#25] [BLOCKED] Upgrade to Gephi 0.9+. (Blocker details: No clustering module/api as of v1.0 of this plugin)<br/>
 
 Notes
 ======

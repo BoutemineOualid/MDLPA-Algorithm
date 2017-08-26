@@ -1,4 +1,3 @@
-**/build
 **/nbproject/private
 nbproject/project.properties
 **/dist
@@ -6,5 +5,11 @@ nbproject/project.properties
 toolkit
 keystore.ks
 dist/**
-build/**
+gephi-plugins/build/**
+MDLPA/build/classes/**
+MDLPA/build/classes-generated/**
+MDLPA/build/depcache/**
+MDLPA/build/no-license.txt
 nbproject/private/**
+
+!MDLPA/build/MDLPA.nbm

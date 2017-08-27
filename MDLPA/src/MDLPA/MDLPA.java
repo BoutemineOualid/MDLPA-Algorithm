@@ -522,7 +522,7 @@ public class MDLPA implements Clusterer, LongTask {
 
         List<Node> dominantNeighbors = new ArrayList<Node>();
         
-        // Finding neighbors that belong to the dominant cluster.
+        // Finding neighbors belonging to the dominant cluster.
         for (Node u : neighborsWeights.keySet()) {
             if (nodeMemberships.get(u) == newlv)
                 dominantNeighbors.add(u);
@@ -537,7 +537,7 @@ public class MDLPA implements Clusterer, LongTask {
     }
     
     /**
-     * Retrieves the dominant clusters in the neighborhood of a node a v.
+     * Retrieves the dominant clusters in the neighborhood of a node v.
      * Used for stop convergence check.
      */
     private List<Color> getDominantClustersInNeighbourhood(Node v) {
@@ -586,7 +586,7 @@ public class MDLPA implements Clusterer, LongTask {
     }
     
     /*
-    * Checks whether all nodes are currently adopting the dominant label according to the propagation rule of MDLPA.
+    * Checks whether all nodes in V are currently adopting the dominant label according to the propagation rule of MDLPA.
     * Invoked at the end of each propagation cycle.
     */
     private boolean allNodesAssignedToDominantClusterInNeighbourhood(){
@@ -736,7 +736,7 @@ public class MDLPA implements Clusterer, LongTask {
      * 2
      * 4
      * Each line indicates the cluster membership of the corresponding node. For example, nodes {n0, n1} belong to cluster 1.
-     * Nodes (n3, n6) belong to cluster 4 and so on ..
+     * Nodes {n3, n6} belong to cluster 4 and so on ..
      * This format was adopted to allow compatibility with other implementations in MATLAB which generate similar clustering results.
      */
     protected void printNodesAssignments(List<Cluster> clusters) {
@@ -749,7 +749,7 @@ public class MDLPA implements Clusterer, LongTask {
             clusterColors.add(((MultidimensionalCluster)cluster).getColor());
         }
     
-        // Now build the list of memberships according the adopted format.
+        // Now build up the list of memberships according the adopted format.
         
         // First sort list of nodes according to their ids.
         Collections.sort(V, new NodeIndexComparer());
@@ -780,8 +780,8 @@ public class MDLPA implements Clusterer, LongTask {
      * relevantDimensions = "[d1, .., dk], ..., [d2, .., do]" where d1, d2, dk, do represent real dimension name as specified on the edges.
      * 
      * Notes: For singleton clusters, the set of relevant dimensions will be empty ([])
-     * Two clusters might have the same or different set of relevant dimensions.
-     * The cardinality of the sets of relevant dimensions varies from 0 to o where o is the number of dimensions of the network.
+     * Two clusters might have the same or different sets of relevant dimensions.
+     * The cardinality of the sets of relevant dimensions varies from 0 to o where o is the toal number of the network's dimensions.
      * An empty set of relevant dimensions means that the node is isolated from any connected component.
      */
     private void printClustersAndRelevantDimensions(List<Cluster> clusters) {

@@ -5,10 +5,10 @@ function [] = ConvertAdjacencyMatricesToGephiEdgeList(A, columnsSeparator, dimen
 % Example: 1;2;1,5;Undirected means that the pair of nodes (1, 2) is connected by dimensions 1 and 5.
 % Note that the direction of the edges is ignored.
 % This format was adopted since Gephi 0.8.2  does not offer any support for multigraphs and the latest version which
-% offers such a supports  (0.9.1) unfortunately doesn't provide a clustering module.
-% A: A cell array of adjacency matrices. Each cell describes the adjacency matrix Ai of layer i of the multidimensional network.
+% offers such a support (0.9.1) doesn't provide a clustering module.
+% A: A cell array of adjacency matrices. Each cell describes the adjacency matrix Ai of the i-th layer of the multidimensional network.
 % columnsSeparator: ';' by default. Used to separate the columns of the generated edges list file.
-% dimensionsSeparator: ',' by default. Used to separate the dimensions on the edge labels.
+% dimensionsSeparator: ',' by default. Used to separate the dimensions on the edges' labels.
 
 if (~exist('dimensionsSeparator'))
 	dimensionsSeparator = ',';

@@ -32,7 +32,7 @@ import org.gephi.utils.progress.ProgressTicket;
 
 /**
  * Implementation of MDLPA[1] clusterer for Gephi.
- * Multidimensional information is represented on edge labels as a comma-separated string of dimensions names between
+ * Multidimensional information is represented on edge labels as a comma-separated string of dimension names between
  * node pairs.
  * Example : label of edge (n0,n1) = "d0,d2,d5" means that the pair (n0,n1) is connected by three edges belonging to dimensions d0, d2 and d5 respectively.
  * The multidimensional information was represented as so because the version 0.8.2 of the Gephi platform (on which this plugin is based) doesn't support multigraphs.
@@ -72,12 +72,12 @@ public class MDLPA implements Clusterer, LongTask {
 
     /**
      * The list of initial attraction weights W0 for each neighbor of each node.
-     * The key holds the node v, the value maps w0 for each possible neighbor u.
+     * The key holds the node v, the value maps w0 for each possible neighbor u in v's neighbors Nv.
      */
     private final Map<Node,Map<Node,Double>> W0 = new HashMap<Node,Map<Node,Double>>();
     
     /**
-     * The list of revised W0 for each neighbor of each node.
+     * The list of revised W0 for each neighbor u of each node v.
      */
     private final Map<Node,Map<Node,Double>> W = new HashMap<Node,Map<Node,Double>>();
     
@@ -215,7 +215,7 @@ public class MDLPA implements Clusterer, LongTask {
     
     /**
      * This methods makes a BitSet representation of each edge where the set
-     * of connecting dimensions is extracted and represented in a bit array.
+     * of connecting dimensions is extracted and mapped to a bit array.
      * Example: label of edge (n0,n1) = "d0,d2,d5" will be represented as
      * [X._.X._._.X] (assuming that the ids of those dimensions map to each bit position).
      * Bitwise operators are then used for sets manipulation.
@@ -232,7 +232,7 @@ public class MDLPA implements Clusterer, LongTask {
                 .getEdgeData()
                 .getLabel();
             
-            // Connecting dimensions between the nodes v, u of the edge.
+            // Connecting dimensions between the adjacent nodes v, u of the edge.
             String[] connectingDimensions = label.split(dimensionsSeparator);
             
             BitSet Dvu = new BitSet();
@@ -404,7 +404,7 @@ public class MDLPA implements Clusterer, LongTask {
     
     /**
      * Updates the relevant dimensions Dv of v based on the relevant dimensions of the neighbors belonging to the winning cluster.
-     * If the group Dv changes, w(u, v) get updated for each neighbor u in Nv.
+     * If the group Dv changes, w(u, v) gets updated for each neighbor u in Nv.
      * @param v: node for which the group of relevant dimensions Dv is to be updated.
      * @param winningCluster: neighbors u of v that belong to the cluster which applies the highest combined w.
      */
@@ -510,7 +510,7 @@ public class MDLPA implements Clusterer, LongTask {
             combinedClusterWeights.put(lu, wvu);
         }
         
-        // Picking the cluster with the heighest w, if the two or more clusters apply the same w,
+        // Picking up the cluster with the heighest w, if the two or more clusters apply the same w,
         // then pick one randomly.
         // LinkedHashMap will always return values in the same order they were inserted. We need to shuffle to randomly pick a dominant cluster.
         combinedClusterWeights = MapUtils.shuffle(combinedClusterWeights, randomizer);
@@ -538,7 +538,7 @@ public class MDLPA implements Clusterer, LongTask {
     
     /**
      * Retrieves the dominant clusters in the neighborhood of a node v.
-     * Used for stop convergence check.
+     * Used for convergence check.
      */
     private List<Color> getDominantClustersInNeighbourhood(Node v) {
         Set<Node> Nv = getNeighbors(v);
@@ -586,7 +586,7 @@ public class MDLPA implements Clusterer, LongTask {
     }
     
     /*
-    * Checks whether all nodes in V are currently adopting the dominant label according to the propagation rule of MDLPA.
+    * Checks whether all nodes in V are currently bearing the dominant label according to the propagation rule of MDLPA.
     * Invoked at the end of each propagation cycle.
     */
     private boolean allNodesAssignedToDominantClusterInNeighbourhood(){

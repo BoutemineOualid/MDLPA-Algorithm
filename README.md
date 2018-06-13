@@ -4,8 +4,7 @@ This repository documents and supports the gephi 0.8.2 implementation of the MDL
 
 Unlike the latest version of Gephi (0.9.1 when this plugin was written), which, unfortunately doesn't offer a clustering module, Gephi 0.8.2 provides a clustering module/api which comes at the expense of multigraphs support.
 The trick to overcome this limitation was to represent the multidimensional information as aggregate metadata on the edges of adjacent node pairs.
-For instance, if the pair of nodes (n1, n2) is linked by 3 edges belonging to dimensions d1, d3 and d5 respectively, the multigraph links will be collapsed
-into a single edge (n1, n2) with an edge label/metadata 'd1,d2,d5' pointing to the connecting dimensions which can easily be processed by the gephi platform.
+For instance, if the pair of nodes (n1, n2) is linked by 3 edges belonging to dimensions d1, d3 and d5 respectively, the multigraph links will be collapsed into a single edge (n1, n2) with an edge label/metadata 'd1,d2,d5' pointing to the connecting dimensions that can easily be processed by the gephi platform.
 
 The code for the plugin is available under the MDLPA folder.
 The gephi platform code is available under the gephi-plugins folder which was forked from the official gephi plugins repository (https://github.com/gephi/gephi-plugins branch 0.8.2).

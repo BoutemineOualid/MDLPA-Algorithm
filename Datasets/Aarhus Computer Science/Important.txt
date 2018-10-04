@@ -1,0 +1,4 @@
+This dataset differs from the original Aarhus Computer Science Department Network data set as it was preprocessed by removing nodes with unknown or multiple memberships. The new network has only 52 nodes compared to 61 nodes in the original network.
+
+Please refer to the experimental section described in this paper:
+Boutemine, O., & Bouguessa, M. (2017). Mining Community Structures in Multidimensional Networks. ACM Transactions on Knowledge Discovery from Data (TKDD), 11(4), 51.
